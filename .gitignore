@@ -29,3 +29,6 @@ yarn-error.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Python
+__pycache__

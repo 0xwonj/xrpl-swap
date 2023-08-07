@@ -1,8 +1,34 @@
+from typing import Any
 from xrpl.clients import XRPLRequestFailureException
-from xrpl.models.requests import Request
+from xrpl.models.requests import Request, AccountInfo
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 
-from models.types import Result
+from models.types import Address, Result
+
+
+async def fetch_account_info(
+    client: AsyncJsonRpcClient, address: Address, **kwargs: Any
+) -> Result:
+    """
+    Fetches account information asynchronously from the XRPL network.
+
+    Args:
+        client (AsyncJsonRpcClient): The client to send the request.
+        address (Address): The address of the account to fetch the information from.
+        **kwargs: Optional arguments to be added to the `AccountInfo` request.
+
+    Returns:
+        Result: A Result object containing the information of this account.
+
+    Raises:
+        XRPLRequestFailureException: If the request fails.
+
+    Example:
+        >>> async with AsyncJsonRpcClient(url) as client:
+        >>>     result = await fetch_account_info(client, Address('rSomeAddress'), ledger_index='current')
+    """
+
+    return await request_ledger(client, AccountInfo(account=address.value, **kwargs))
 
 
 async def request_ledger(client: AsyncJsonRpcClient, request: Request) -> Result:

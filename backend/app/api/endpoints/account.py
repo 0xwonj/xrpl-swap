@@ -7,7 +7,15 @@ from xrpledger.request import fetch_account_info
 
 from models.types import Address, Result
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/account",
+    tags=["account"],
+    dependencies=[Depends(get_xrpl_client)],
+    responses={
+        400: {"description": "Invalid Request"},
+        404: {"description": "Account Not Found"},
+    },
+)
 
 
 @router.get("/info/{address}")

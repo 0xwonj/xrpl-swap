@@ -10,8 +10,8 @@ from models.types import Address, Result
 router = APIRouter()
 
 
-@router.get("/info/{account}")
+@router.get("/info/{address}")
 async def account_info(
-    account: str, client: AsyncJsonRpcClient = Depends(get_xrpl_client)
+    address: str, client: AsyncJsonRpcClient = Depends(get_xrpl_client)
 ) -> Result:
-    return await fetch_account_info(client=client, address=Address(value=account))
+    return await fetch_account_info(client=client, address=Address(value=address))

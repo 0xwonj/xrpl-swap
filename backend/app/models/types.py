@@ -10,7 +10,7 @@ class Address(BaseModel):
 
     @validator("value")
     # pylint: disable=no-self-argument
-    def validate_address(cls, value: str):
+    def validate_address(cls, value: str) -> str:
         if not is_valid_classic_address(value) and not is_valid_xaddress(value):
             raise ValueError("Invalid address")
         return value

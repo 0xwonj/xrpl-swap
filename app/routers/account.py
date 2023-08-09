@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 
+from app.config import settings
 from app.models.types import Address, Result
 from app.xrpl.client import get_xrpl_client
 from app.xrpl.request import fetch_account_info
-from app.config import settings
 
 router = APIRouter(
     prefix="/account",

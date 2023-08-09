@@ -4,11 +4,11 @@ from xrpl.models.amounts import IssuedCurrencyAmount
 from xrpl.models.transactions import Payment, PaymentFlag
 from xrpl.wallet import Wallet
 
+from app.config import settings
 from app.models.requests import TokenSwapRequest
 from app.models.types import Result
 from app.xrpl.client import get_xrpl_client
 from app.xrpl.transaction import submit_transaction
-from app.config import settings
 
 router = APIRouter(
     prefix="/swap",

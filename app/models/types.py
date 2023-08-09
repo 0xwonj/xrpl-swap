@@ -39,6 +39,12 @@ class Address(BaseModel):
         return value
 
 
+class Wallet(BaseModel):
+    address: Address
+    public_key: str
+    private_key: str
+
+
 class Result(BaseModel):
     """
     A model representing the result of a transaction or operation.

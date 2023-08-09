@@ -23,3 +23,6 @@ poetry.lock
 
 # Misc
 trash/
+
+# Secret
+.env

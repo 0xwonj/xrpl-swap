@@ -8,6 +8,7 @@ from app.models.requests import TokenSwapRequest
 from app.models.types import Result
 from app.xrpl.client import get_xrpl_client
 from app.xrpl.transaction import submit_transaction
+from app.config import settings
 
 router = APIRouter(
     prefix="/swap",
@@ -22,8 +23,8 @@ router = APIRouter(
 
 @router.post("/buy")
 async def buy_token(
-    account: str,
     request: TokenSwapRequest,
+    account: str = settings.wallet.address.value,
     client: AsyncJsonRpcClient = Depends(get_xrpl_client),
 ) -> Result:
     """
@@ -67,8 +68,8 @@ async def buy_token(
 
 @router.post("/sell")
 async def sell_token(
-    account: str,
     request: TokenSwapRequest,
+    account: str = settings.wallet.address.value,
     client: AsyncJsonRpcClient = Depends(get_xrpl_client),
 ) -> Result:
     """

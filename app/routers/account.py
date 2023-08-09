@@ -4,6 +4,7 @@ from xrpl.asyncio.clients import AsyncJsonRpcClient
 from app.models.types import Address, Result
 from app.xrpl.client import get_xrpl_client
 from app.xrpl.request import fetch_account_info
+from app.config import settings
 
 router = APIRouter(
     prefix="/account",
@@ -17,16 +18,18 @@ router = APIRouter(
 
 
 @router.get("/info/{address}")
-async def account_info(address: str, client: AsyncJsonRpcClient = Depends(get_xrpl_client)) -> Result:
+async def account_info(
+    account: str = settings.wallet.address.value, client: AsyncJsonRpcClient = Depends(get_xrpl_client)
+) -> Result:
     """
     Fetches the account information for a given XRPL address.
 
     Args:
-        address (str): The XRPL address for which the account information is to be fetched.
+        account (str): The XRPL address for which the account information is to be fetched.
         client (AsyncJsonRpcClient, optional): Client to connect to the XRPL.
                                                Defaults to a client obtained via get_xrpl_client.
 
     Returns:
         Result: A Result object containing the account information.
     """
-    return await fetch_account_info(client=client, address=Address(value=address))
+    return await fetch_account_info(client=client, address=Address(value=account))

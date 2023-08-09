@@ -12,6 +12,7 @@ ENV = os.getenv("XRPL_ENV", "dev")
 
 class CommonSettings(BaseSettings):
     PROJECT_NAME: str = "XRPL Swap API"
+    API_VERSION: str = "0.0.1"
     API_PREFIX: str = "/api/v1"
 
     DEBUG_MODE: bool = False

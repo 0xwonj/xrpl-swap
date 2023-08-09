@@ -15,7 +15,7 @@ class Address(BaseModel):
         ValueError: If the provided address is not in a valid format.
     """
 
-    value: str = Field(..., min_length=25, max_length=58)
+    value: str = Field(..., min_length=25, max_length=58, description="An XRPL address")
 
     # pylint: disable=no-self-argument
     @validator("value")
@@ -42,10 +42,10 @@ class Result(BaseModel):
     A model representing the result of a transaction or operation.
 
     Attributes:
-        data (Dict[str, Any]): A dictionary containing the data related to the result.
+        data (Dict[str, Any]): A dictionary of the result.
     """
 
-    data: Dict[str, Any]
+    data: Dict[str, Any] = Field(..., description="A dictionary of the result")
 
 
 class TokenAmount(BaseModel):
@@ -58,6 +58,6 @@ class TokenAmount(BaseModel):
         value (str|int|float): The amount value of the token.
     """
 
-    currency: str
-    issuer: str
-    value: str | int | float
+    currency: str = Field(..., description="The currency code or symbol of the token")
+    issuer: str = Field(..., description="The issuer's XRPL address")
+    value: str | int | float = Field(..., description="The amount value of the token")

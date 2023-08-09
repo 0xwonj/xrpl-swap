@@ -26,13 +26,16 @@ pylint = "^2.17.5"
 isort = "^5.12.0"
 pre-commit = "^3.3.3"
 
+[tool.pylint.master]
+max-line-length = 110
+
 [tool.pylint.'MESSAGES CONTROL']
 disable=[
     "C0114",
 ]
 
 [tool.black]
-line-length = 120
+line-length = 110
 target-version = ['py311']
 include = '\.pyi?$'
 exclude = '''

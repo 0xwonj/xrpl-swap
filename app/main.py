@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from api.endpoints.account import router as account_router
-from api.endpoints.swap import router as swap_router
+from app.routers.account import router as account_router
+from app.routers.swap import router as swap_router
 
 app = FastAPI()
 

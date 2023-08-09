@@ -8,7 +8,7 @@ from xrpl.asyncio.transaction import (
     XRPLReliableSubmissionException,
 )
 
-from models.types import Result
+from app.models.types import Result
 
 
 async def submit_transaction(

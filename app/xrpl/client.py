@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 
-from constants import TESTNET_URL, MAINNET_URL, AMMDEVNET_URL
+from app.constants import TESTNET_URL, MAINNET_URL, AMMDEVNET_URL
 
 load_dotenv()
 

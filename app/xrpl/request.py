@@ -3,7 +3,7 @@ from xrpl.clients import XRPLRequestFailureException
 from xrpl.models.requests import Request, AccountInfo
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 
-from models.types import Address, Result
+from app.models.types import Address, Result
 
 
 async def fetch_account_info(

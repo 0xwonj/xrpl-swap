@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from models.types import TokenAmount
+from app.models.types import TokenAmount
 
 
 class TokenSwapRequest(BaseModel):

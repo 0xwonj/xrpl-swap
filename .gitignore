@@ -13,6 +13,7 @@ poetry.lock
 
 # IDEs / editors
 .vscode/
+*.code-workspace
 .idea/
 *.swp
 *.swo

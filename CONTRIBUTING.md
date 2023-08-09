@@ -2,7 +2,7 @@
 
 Welcome to the XRPL-Swap development guide! Here are the rules and guidelines to ensure smooth collaboration and consistency throughout the project.
 
-### 1. Where do I go from here?
+### 1. Starting Point
 
 Before diving into changes, please either discuss them with the team or post them in the issues or discussion section following the provided templates. Whether it's a new feature or a potential bug fix, getting feedback or documenting it ensures we avoid duplicate efforts and potential conflicts.
 
@@ -10,9 +10,17 @@ Before diving into changes, please either discuss them with the team or post the
 
 -   **Fork the repo** and then clone it locally:
 
-    ```bash
-    git clone https://github.com/<your-username>/xrpl-swap.git
-    ```
+    -   HTTPS:
+
+        ```bash
+        git clone https://github.com/<your-username>/xrpl-swap.git
+        ```
+
+    -   SSH:
+
+        ```bash
+        git clone git@github.com:/<your-username>/xrpl-swap.git
+        ```
 
 -   **Navigate to your local fork**: `cd xrpl-swap`.
 

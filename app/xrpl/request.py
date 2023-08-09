@@ -1,14 +1,13 @@
 from typing import Any
-from xrpl.clients import XRPLRequestFailureException
-from xrpl.models.requests import Request, AccountInfo
+
 from xrpl.asyncio.clients import AsyncJsonRpcClient
+from xrpl.clients import XRPLRequestFailureException
+from xrpl.models.requests import AccountInfo, Request
 
 from app.models.types import Address, Result
 
 
-async def fetch_account_info(
-    client: AsyncJsonRpcClient, address: Address, **kwargs: Any
-) -> Result:
+async def fetch_account_info(client: AsyncJsonRpcClient, address: Address, **kwargs: Any) -> Result:
     """
     Fetches account information asynchronously from the XRPL network.
 

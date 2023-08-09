@@ -1,12 +1,12 @@
-from xrpl.models.transactions import Transaction
-from xrpl.wallet import Wallet
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 from xrpl.asyncio.transaction import (
+    XRPLReliableSubmissionException,
     autofill,
     sign,
     submit_and_wait,
-    XRPLReliableSubmissionException,
 )
+from xrpl.models.transactions import Transaction
+from xrpl.wallet import Wallet
 
 from app.models.types import Result
 
@@ -41,9 +41,7 @@ async def submit_transaction(
     signed_tx.validate()
 
     # Send transaction and get response
-    response = await submit_and_wait(
-        transaction=signed_tx, client=client, wallet=wallet
-    )
+    response = await submit_and_wait(transaction=signed_tx, client=client, wallet=wallet)
 
     # Raise exception if transaction failed
     if not response.is_successful():

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+
 from app.routers.account import router as account_router
 from app.routers.swap import router as swap_router
 

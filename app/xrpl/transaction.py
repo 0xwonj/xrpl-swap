@@ -25,7 +25,7 @@ async def submit_transaction(
         wallet (Wallet): The wallet containing the keys used to sign the transaction.
 
     Raises:
-        XRPLReliableSubmissionException: If the transaction is not successful, this exception is raised with the result of the transaction.
+        XRPLReliableSubmissionException: If the transaction is not successful.
 
     Returns:
         Result: The result object containing the transaction's outcome details.

@@ -11,8 +11,10 @@ ENV = os.getenv("XRPL_ENV", "dev")
 
 
 class CommonSettings(BaseSettings):
-    API_PREFIX: str = "/api/v1"
     PROJECT_NAME: str = "XRPL Swap API"
+    API_PREFIX: str = "/api/v1"
+
+    DEBUG_MODE: bool = False
 
     json_rpc_url: str
     websocket_url: str

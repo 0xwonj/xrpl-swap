@@ -18,3 +18,4 @@ repos:
       hooks:
           - id: pylint
             args: ['--disable=C0114']
+            additional_dependencies: [fastapi, xrpl-py]

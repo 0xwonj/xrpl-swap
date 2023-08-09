@@ -1,61 +1,70 @@
-# XRPL-Swap Backend
+# xrpl-swap Backend
 
-Backend API is built with [FastAPI](https://fastapi.tiangolo.com/), a modern, fast (high-performance), web framework for building APIs with Python.
-
-This API also utilizes [xrpl-py](https://xrpl-py.readthedocs.io/en/stable/), a pure Python implementation of the XRP Ledger. xrpl-py allows this backend to interact with the XRP Ledger.
+This backend API is built using [FastAPI](https://fastapi.tiangolo.com/), a modern, high-performance web framework for building APIs with Python 3. Additionally, the backend interacts with the XRP Ledger through the [xrpl-py](https://xrpl-py.readthedocs.io/en/stable/) library, a pure Python implementation of the XRP Ledger.
 
 ## Requirements
 
-Python 3.10+
+-   Python 3.11+
 
 ## Setting Up for Development
 
-1. Ensure you have Python 3.10+ installed on your system. You can verify this by running `python3 --version` on your command line.
+1. Ensure Python 3.11 or higher is installed on your system:
 
-2. Clone the repository onto your local environment.
+    ```bash
+    python3 --version
+    ```
 
-3. Navigate to the `backend` directory.
+2. Clone this repository to your local machine.
 
-4. Install the necessary packages for the project by running:
+3. Using the terminal, navigate to the project's root directory.
 
-```bash
-pip install -r requirements.txt
-```
+4. This project uses `poetry` for dependency management. If you don't have `poetry` installed, you can install it with:
+
+    ```bash
+    curl -sSL https://install.python-poetry.org | python3 -
+    ```
+
+5. Install the required dependencies using `poetry`:
+    ```bash
+    poetry install
+    ```
 
 ## Running the Server Locally
 
-Navigate to the `app` directory within `backend` and run the following command:
+While in the project's root directory, run the server with the following command:
 
 ```bash
-uvicorn main:app --reload
+python -m main
 ```
 
-This command runs the server in development mode, with hot-reloading enabled. You should see output telling you that the server is running and listening for HTTP requests on `http://127.0.0.1:8000/`.
+The server will start in development mode with hot-reloading enabled. You should see an output indicating the server is running on `http://127.0.0.1:8000/`.
 
-Open up your web browser to this URL to interact with the application via FastAPI's interactive API documentation on `http://127.0.0.1:8000/docs`, or point your API client (like Postman) to this URL to begin sending requests to your application.
+For interactive API documentation, open your web browser and navigate to `http://127.0.0.1:8000/docs`. Alternatively, use API clients like Postman to send requests to your application.
 
 ## Testing
 
-To run tests, navigate to the `backend` directory and run:
+From the project's root directory, run the tests using:
 
 ```bash
 pytest
 ```
 
-Ensure any new code is well-tested and all tests pass.
+Make sure all tests pass before committing or pushing any new code.
 
 ## Deployment
 
 ## API Endpoints
 
-Your FastAPI server has the following endpoints:
+The FastAPI server offers several endpoints, including:
 
-1. `api/v1/account`
+1. `api/account`
 
-Please refer to the FastAPI interactive API documentation at `http://<your-server-url>/docs`.
+2. `api/swap`
+
+For a comprehensive list of endpoints and their documentation, please refer to FastAPI's interactive API documentation located at `http://<your-server-url>/docs`.
 
 ## Contributing
 
-Before you contribute, please read through the contributing guidelines. Please adhere to this repository's coding conventions and guidelines for each pull request and issue.
+If you wish to contribute to this project, kindly go through our contributing guidelines. We value each contribution and request you to adhere to the coding conventions and guidelines for all pull requests and issues.
 
 ## License

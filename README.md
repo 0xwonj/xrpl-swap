@@ -41,12 +41,14 @@ For interactive API documentation, open your web browser and navigate to `http:/
 From the project's root directory, run the tests using:
 
 ```bash
-pytest
+poetry run pytest
 ```
 
-Make sure all tests pass before committing or pushing any new code.
+Make sure all tests pass before committing or opening a pull request.
 
 ## Deployment
+
+<!-- Add description how to deploy to the server -->
 
 ## API Endpoints
 
@@ -63,3 +65,5 @@ For a comprehensive list of endpoints and their documentation, please refer to F
 If you wish to contribute to this project, kindly go through our contributing guidelines. We value each contribution and request you to adhere to the coding conventions and guidelines for all pull requests and issues.
 
 ## License
+
+<!-- Add License -->

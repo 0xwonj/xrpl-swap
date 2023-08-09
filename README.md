@@ -4,7 +4,8 @@ This backend API is built using [FastAPI](https://fastapi.tiangolo.com/), a mode
 
 ## Requirements
 
--   Python 3.11+
+-   [Python 3.11+](https://www.python.org/downloads/)
+-   [Poetry](https://python-poetry.org/docs/#installation)
 
 ## Setting Up for Development
 
@@ -18,23 +19,17 @@ This backend API is built using [FastAPI](https://fastapi.tiangolo.com/), a mode
 
 3. Using the terminal, navigate to the project's root directory.
 
-4. This project uses `poetry` for dependency management. If you don't have `poetry` installed, you can install it with:
-
-    ```bash
-    curl -sSL https://install.python-poetry.org | python3 -
-    ```
-
-5. Install the required dependencies using `poetry`:
+4. Install the required dependencies using `poetry`:
     ```bash
     poetry install
     ```
 
 ## Running the Server Locally
 
-While in the project's root directory, run the server with the following command:
+While in the project's root directory, initiate the virtual environment and run the server using `poetry` with the following command:
 
 ```bash
-python -m main
+poetry run python -m main
 ```
 
 The server will start in development mode with hot-reloading enabled. You should see an output indicating the server is running on `http://127.0.0.1:8000/`.

@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
 
-from app.models.types import Address, Wallet
+from app.models.types import Wallet
 
 load_dotenv()
 
@@ -33,7 +33,7 @@ class DevSettings(CommonSettings):
     json_rpc_url: str = "https://s.altnet.rippletest.net:51234"  # Testnet
     websocket_url: str = "wss://s.altnet.rippletest.net:51233"  # Testnet
     wallet: Wallet = Wallet(
-        address=Address(value="rnwjHhgiNQSYfJndh1AiRBmcRKmPu2qzGs"),
+        address="rnwjHhgiNQSYfJndh1AiRBmcRKmPu2qzGs",
         public_key="ED08DEED03322A7BB4C33FEDF6B416E37E45B3927ABDAE54FF6BCFCCB7A9C33C78",
         private_key="ED98B5A858F1BCD5F7A0F2306521E57044385CC342D3DAB604C6CCBAF01EDE63AE",
     )

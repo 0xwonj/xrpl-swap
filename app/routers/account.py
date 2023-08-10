@@ -17,8 +17,8 @@ router = APIRouter(
 )
 
 
-@router.get("/info/{address}")
-async def account_info(
+@router.get("/info/{account}")
+async def get_account_info(
     account: str = settings.wallet.address.value, client: AsyncJsonRpcClient = Depends(get_xrpl_client)
 ) -> Result:
     """

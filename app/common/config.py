@@ -11,6 +11,10 @@ ENV = os.getenv("XRPL_ENV", "dev")
 
 
 class CommonSettings(BaseSettings):
+    """
+    Common settings for the API.
+    """
+
     PROJECT_NAME: str = "XRPL Swap API"
     API_VERSION: str = "0.0.1"
     API_PREFIX: str = "/api/v1"
@@ -22,12 +26,20 @@ class CommonSettings(BaseSettings):
     wallet: Wallet
 
     class Config:
+        """
+        Configuration for the settings.
+        """
+
         env_file = ".env"
         case_sensitive = True
         extra = "ignore"
 
 
 class DevSettings(CommonSettings):
+    """
+    Development settings for the API.
+    """
+
     DEBUG_MODE: bool = True
 
     json_rpc_url: str = "https://s.altnet.rippletest.net:51234"  # Testnet
@@ -40,6 +52,10 @@ class DevSettings(CommonSettings):
 
 
 class AmmDevSettings(CommonSettings):
+    """
+    AMM-Devnet settings for the API.
+    """
+
     DEBUG_MODE: bool = True
 
     json_rpc_url: str = "https://amm.devnet.rippletest.net:51234"  # AMM-Devnet
@@ -47,6 +63,10 @@ class AmmDevSettings(CommonSettings):
 
 
 class ProdSettings(CommonSettings):
+    """
+    Production settings for the API.
+    """
+
     DEBUG_MODE: bool = False
 
     json_rpc_url: str = "https://s1.ripple.com:51234"  # Mainnet
@@ -54,6 +74,12 @@ class ProdSettings(CommonSettings):
 
 
 def get_settings() -> CommonSettings:
+    """
+    Get the settings for the API.
+
+    Returns:
+        CommonSettings: The settings for the API.
+    """
     if ENV == "prod":
         return ProdSettings()  # type: ignore
     if ENV == "amm-dev":

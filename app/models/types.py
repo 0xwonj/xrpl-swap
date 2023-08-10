@@ -2,6 +2,10 @@ from pydantic import BaseModel, Field
 
 
 class Wallet(BaseModel):
+    """
+    A model representing a XRP Ledger wallet.
+    """
+
     address: str
     public_key: str
     private_key: str

@@ -15,7 +15,7 @@ repository = "https://github.com/Helix-Organization/xrpl-swap"
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.101.0"
-uvicorn = "^0.23.2"
+uvicorn = {extras = ["all"], version = "^0.23.2"}
 xrpl-py = "^2.2.0"
 python-dotenv = "^1.0.0"
 pydantic = "^2.1.1"

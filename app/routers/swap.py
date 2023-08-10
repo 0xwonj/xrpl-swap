@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends
-from xrpl.asyncio.clients import AsyncJsonRpcClient
+from fastapi.responses import JSONResponse
 from xrpl.models.amounts import IssuedCurrencyAmount
 from xrpl.models.transactions import Payment, PaymentFlag
 from xrpl.wallet import Wallet
 
+from app.models.annotations import XrplAddress, XrplClient
 from app.models.requests import TokenSwapRequest
-from app.models.types import Result
 from app.xrpl.client import get_xrpl_client
 from app.xrpl.transaction import submit_transaction
 
@@ -22,10 +22,10 @@ router = APIRouter(
 
 @router.post("/buy")
 async def buy_token(
-    account: str,
     request: TokenSwapRequest,
-    client: AsyncJsonRpcClient = Depends(get_xrpl_client),
-) -> Result:
+    account: XrplAddress,
+    client: XrplClient,
+) -> JSONResponse:
     """
     Process a token purchase on the XRPL.
 
@@ -67,10 +67,10 @@ async def buy_token(
 
 @router.post("/sell")
 async def sell_token(
-    account: str,
     request: TokenSwapRequest,
-    client: AsyncJsonRpcClient = Depends(get_xrpl_client),
-) -> Result:
+    account: XrplAddress,
+    client: XrplClient,
+) -> JSONResponse:
     """
     Process a token sale on the XRPL with partial payment support.
 

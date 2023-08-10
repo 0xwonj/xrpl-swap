@@ -1,36 +1,30 @@
+from fastapi.responses import JSONResponse
 from xrpl.asyncio.clients import AsyncJsonRpcClient
-from xrpl.asyncio.transaction import (
-    XRPLReliableSubmissionException,
-    autofill,
-    sign,
-    submit_and_wait,
-)
+from xrpl.asyncio.transaction import autofill, sign, submit_and_wait
 from xrpl.models.transactions import Transaction
 from xrpl.wallet import Wallet
 
-from app.models.types import Result
+from app.xrpl.client import create_json_response
 
 
 async def submit_transaction(
     transaction: Transaction,
     client: AsyncJsonRpcClient,
     wallet: Wallet,
-) -> Result:
+) -> JSONResponse:
     """
-    Submits a transaction to XRPL, waits for a response, and returns the result.
+    Submits a transaction to XRPL, waits for a response, and then returns the result.
 
     Args:
-        transaction (Transaction): The transaction object to be submitted to the network.
-        client (AsyncJsonRpcClient): The JSON RPC client used to communicate with the network.
-        wallet (Wallet): The wallet containing the keys used to sign the transaction.
-
-    Raises:
-        XRPLReliableSubmissionException: If the transaction is not successful.
+        transaction (Transaction): Transaction object to be submitted to XRP Ledger.
+        client (AsyncJsonRpcClient): Async JSON RPC client for XRP Ledger.
+        wallet (Wallet): The wallet containing the keys used for signing the transaction.
 
     Returns:
-        Result: The result object containing the transaction's outcome details.
+        JSONResponse: A JSON response containing details about the outcome of the transaction.
+            (status_code) 200: Transaction successful.
+                          400: Transaction failed.
     """
-
     # Autofill transaction
     filled_tx = await autofill(transaction=transaction, client=client, signers_count=1)
 
@@ -43,9 +37,5 @@ async def submit_transaction(
     # Send transaction and get response
     response = await submit_and_wait(transaction=signed_tx, client=client, wallet=wallet)
 
-    # Raise exception if transaction failed
-    if not response.is_successful():
-        raise XRPLReliableSubmissionException(response.result)
-
-    # Return result
-    return Result(data=response.result)
+    # Return response
+    return create_json_response(response)

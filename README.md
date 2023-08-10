@@ -62,8 +62,10 @@ For a comprehensive list of endpoints and their documentation, please refer to F
 
 ## Contributing
 
-If you wish to contribute to this project, kindly go through our contributing guidelines. We value each contribution and request you to adhere to the coding conventions and guidelines for all pull requests and issues.
+If you wish to contribute to this project, kindly go through our [CONTRIBUTING.md](CONTRIBUTING.md) guidelines. We value each contribution and request you to adhere to the coding conventions and guidelines for all pull requests and issues.
 
 ## License
 
-<!-- Add License -->
+This project is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0). This means you are free to copy and redistribute the material in any medium or format, but you must give appropriate credit, cannot use the material for commercial purposes, and cannot create derivative works based on it.
+
+For more details, please see the [LICENSE.md](LICENSE.md) file or visit the [official license page](https://creativecommons.org/licenses/by-nc-nd/4.0/).

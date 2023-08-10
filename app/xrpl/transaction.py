@@ -22,7 +22,8 @@ async def submit_transaction(
 
     Returns:
         JSONResponse: A JSON response containing details about the outcome of the transaction.
-                   Returns with a status code of 200 on success and 400 on failure.
+            (status_code) 200: Transaction successful.
+                          400: Transaction failed.
     """
     # Autofill transaction
     filled_tx = await autofill(transaction=transaction, client=client, signers_count=1)

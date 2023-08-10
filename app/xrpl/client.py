@@ -1,6 +1,8 @@
+from fastapi.responses import JSONResponse
 from xrpl.asyncio.clients import AsyncJsonRpcClient
+from xrpl.models.response import Response
 
-from app.config import settings
+from app.common.config import settings
 
 
 async def get_xrpl_client(url: str | None = None) -> AsyncJsonRpcClient:
@@ -14,3 +16,25 @@ async def get_xrpl_client(url: str | None = None) -> AsyncJsonRpcClient:
         AsyncJsonRpcClient: An instance of AsyncJsonRpcClient connected to the specified XRPL environment.
     """
     return AsyncJsonRpcClient(settings.json_rpc_url if url is None else url)
+
+
+def create_json_response(response: Response) -> JSONResponse:
+    """
+    Creates a JSONResponse based on the given response's success status.
+
+    Args:
+        response: The response object which has a method 'is_successful'.
+
+    Returns:
+        JSONResponse: The response object formatted as a JSON response.
+            (status_code) 200: Response successful.
+                          400: Response failed.
+    """
+    # Set status code based on response success
+    if response.is_successful():
+        status_code = 200
+    else:
+        status_code = 400
+
+    # Return JSON response
+    return JSONResponse(content=response.result, status_code=status_code)

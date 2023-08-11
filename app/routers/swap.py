@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
-from xrpl.models.amounts import IssuedCurrencyAmount
 from xrpl.models.transactions import Payment, PaymentFlag
 from xrpl.wallet import Wallet
 
@@ -8,6 +7,7 @@ from app.models.annotations import XrplAddress, XrplClient
 from app.models.requests import PaymentRequest
 from app.xrpl.client import get_xrpl_client
 from app.xrpl.transaction import submit_transaction
+from app.xrpl.utils import convert_to_amount
 
 router = APIRouter(
     prefix="/swap",
@@ -33,18 +33,12 @@ async def buy_token(
     the source currency details, including the max value they are
     willing to spend.
     """
-    send_max = IssuedCurrencyAmount(
-        currency=request.source.currency,
-        issuer=request.source.issuer,
-        value=request.source.value,
+    swap_tx = Payment(
+        account=account,
+        destination=account,
+        send_max=convert_to_amount(request.source),
+        amount=convert_to_amount(request.dest),
     )
-    amount = IssuedCurrencyAmount(
-        currency=request.dest.currency,
-        issuer=request.dest.issuer,
-        value=request.dest.value,
-    )
-
-    swap_tx = Payment(account=account, destination=account, send_max=send_max, amount=amount)
 
     return await submit_transaction(
         transaction=swap_tx,
@@ -67,29 +61,12 @@ async def sell_token(
     less than or equal to the specified `deliver_min` value, depending on
     the market conditions.
     """
-
-    send_max = IssuedCurrencyAmount(
-        currency=request.source.currency,
-        issuer=request.source.issuer,
-        value=request.source.value,
-    )
-    amount = IssuedCurrencyAmount(
-        currency=request.dest.currency,
-        issuer=request.dest.issuer,
-        value=request.dest.value,
-    )
-    deliver_min = IssuedCurrencyAmount(
-        currency=request.dest.currency,
-        issuer=request.dest.issuer,
-        value=request.dest.value,
-    )
-
     swap_tx = Payment(
         account=account,
         destination=account,
-        send_max=send_max,
-        amount=amount,
-        deliver_min=deliver_min,
+        send_max=convert_to_amount(request.source),
+        amount=convert_to_amount(request.dest),
+        deliver_min=convert_to_amount(request.dest),
         flags=[PaymentFlag.TF_PARTIAL_PAYMENT],
     )
 

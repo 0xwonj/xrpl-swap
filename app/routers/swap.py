@@ -5,7 +5,7 @@ from xrpl.models.transactions import Payment, PaymentFlag
 from xrpl.wallet import Wallet
 
 from app.models.annotations import XrplAddress, XrplClient
-from app.models.requests import TokenSwapRequest
+from app.models.requests import PaymentRequest
 from app.xrpl.client import get_xrpl_client
 from app.xrpl.transaction import submit_transaction
 
@@ -22,7 +22,7 @@ router = APIRouter(
 
 @router.post("/buy")
 async def buy_token(
-    request: TokenSwapRequest,
+    request: PaymentRequest,
     account: XrplAddress,
     client: XrplClient,
 ) -> JSONResponse:
@@ -55,7 +55,7 @@ async def buy_token(
 
 @router.post("/sell")
 async def sell_token(
-    request: TokenSwapRequest,
+    request: PaymentRequest,
     account: XrplAddress,
     client: XrplClient,
 ) -> JSONResponse:

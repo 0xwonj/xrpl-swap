@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
 from app.models.annotations import XrplAddress, XrplClient
+from app.models.responses import AccountInfoResponse
 from app.xrpl.client import get_xrpl_client
 from app.xrpl.request import fetch_account_info
 
@@ -16,7 +17,7 @@ router = APIRouter(
 )
 
 
-@router.get("/{account}/info")
+@router.get("/{account}/info", response_model=AccountInfoResponse)
 async def get_account_info(
     account: XrplAddress,
     client: XrplClient,

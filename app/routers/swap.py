@@ -32,23 +32,11 @@ async def buy_token(
     Allows a user to buy a specified amount of a token by providing
     the source currency details, including the max value they are
     willing to spend.
-
-    Args:
-        account (str): XRPL account address initiating the purchase.
-        request (TokenSwapRequest): Request data specifying the source
-            currency details and the desired token's details.
-        client (AsyncJsonRpcClient, optional): XRPL client instance for
-            interacting with the XRPL network. Defaults to an instance
-            created by `get_xrpl_client`.
-
-    Returns:
-        Result: Result of the token purchase transaction, including
-            transaction details and status.
     """
     send_max = IssuedCurrencyAmount(
         currency=request.source.currency,
         issuer=request.source.issuer,
-        value=request.source.value,  # This is the max amount to spend
+        value=request.source.value,
     )
     amount = IssuedCurrencyAmount(
         currency=request.dest.currency,
@@ -78,18 +66,6 @@ async def sell_token(
     supports partial payments, meaning the seller can receive an amount
     less than or equal to the specified `deliver_min` value, depending on
     the market conditions.
-
-    Args:
-        account (str): XRPL account address initiating the sale.
-        request (TokenSwapRequest): Request data specifying the source
-            token's details and the desired destination currency details.
-        client (AsyncJsonRpcClient, optional): XRPL client instance for
-            interacting with the XRPL network. Defaults to an instance
-            created by `get_xrpl_client`.
-
-    Returns:
-        Result: Result of the token sale transaction, including
-            transaction details and status.
     """
 
     send_max = IssuedCurrencyAmount(

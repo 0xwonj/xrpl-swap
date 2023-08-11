@@ -23,13 +23,5 @@ async def get_account_info(
 ) -> JSONResponse:
     """
     Fetches the account information for a given XRPL address.
-
-    Args:
-        account (str): The XRPL address for which the account information is to be fetched.
-        client (AsyncJsonRpcClient, optional): Client to connect to the XRPL.
-                                               Defaults to a client obtained via get_xrpl_client.
-
-    Returns:
-        Result: A Result object containing the account information.
     """
     return await fetch_account_info(client=client, address=account)

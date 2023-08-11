@@ -17,11 +17,6 @@ repos:
       rev: v3.0.0a6
       hooks:
           - id: pylint
-            args:
-                [
-                    '--rcfile=pyproject.toml',
-                    '--disable=C0114',
-                    '--disable=R0903',
-                ]
+            args: ['--rcfile=pyproject.toml']
             additional_dependencies:
                 [python-dotenv, fastapi, uvicorn, pydantic-settings, xrpl-py]

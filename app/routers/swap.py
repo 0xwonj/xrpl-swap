@@ -20,6 +20,33 @@ router = APIRouter(
 )
 
 
+@router.post("/send/{currency}")
+async def send_token(
+    request: PaymentRequest,
+    account: XrplAddress,
+    dest_account: XrplAddress,
+    client: XrplClient,
+) -> JSONResponse:
+    """
+    Process a token send on the XRPL. Token is including XRP.
+
+    Allows a user to send a specified amount of a token to another
+    XRPL address.
+    """
+    send_tx = Payment(
+        account=account,
+        destination=dest_account,
+        amount=convert_to_amount(request.dest),
+        send_max=convert_to_amount(request.source),
+    )
+
+    return await submit_transaction(
+        transaction=send_tx,
+        client=client,
+        wallet=Wallet(public_key=request.public, private_key=request.secret),
+    )
+
+
 @router.post("/buy")
 async def buy_token(
     request: PaymentRequest,

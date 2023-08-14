@@ -20,6 +20,7 @@ class CommonSettings(BaseSettings):
     API_PREFIX: str = "/api/v1"
 
     DEBUG_MODE: bool = False
+    LIVE_RELOAD: bool = False
 
     json_rpc_url: str
     websocket_url: str
@@ -41,6 +42,7 @@ class DevSettings(CommonSettings):
     """
 
     DEBUG_MODE: bool = True
+    LIVE_RELOAD: bool = True
 
     json_rpc_url: str = "https://s.altnet.rippletest.net:51234"  # Testnet
     websocket_url: str = "wss://s.altnet.rippletest.net:51233"  # Testnet
@@ -57,9 +59,15 @@ class AmmDevSettings(CommonSettings):
     """
 
     DEBUG_MODE: bool = True
+    LIVE_RELOAD: bool = True
 
     json_rpc_url: str = "https://amm.devnet.rippletest.net:51234"  # AMM-Devnet
     websocket_url: str = "wss://amm.devnet.rippletest.net:51233"
+    wallet: Wallet = Wallet(
+        address="rnwjHhgiNQSYfJndh1AiRBmcRKmPu2qzGs",
+        public_key="ED08DEED03322A7BB4C33FEDF6B416E37E45B3927ABDAE54FF6BCFCCB7A9C33C78",
+        private_key="ED98B5A858F1BCD5F7A0F2306521E57044385CC342D3DAB604C6CCBAF01EDE63AE",
+    )
 
 
 class ProdSettings(CommonSettings):
@@ -68,9 +76,15 @@ class ProdSettings(CommonSettings):
     """
 
     DEBUG_MODE: bool = False
+    LIVE_RELOAD: bool = False
 
     json_rpc_url: str = "https://s1.ripple.com:51234"  # Mainnet
     websocket_url: str = "wss://s1.ripple.com"
+    wallet: Wallet = Wallet(
+        address="rnwjHhgiNQSYfJndh1AiRBmcRKmPu2qzGs",
+        public_key="ED08DEED03322A7BB4C33FEDF6B416E37E45B3927ABDAE54FF6BCFCCB7A9C33C78",
+        private_key="ED98B5A858F1BCD5F7A0F2306521E57044385CC342D3DAB604C6CCBAF01EDE63AE",
+    )
 
 
 def get_settings() -> CommonSettings:
@@ -80,13 +94,12 @@ def get_settings() -> CommonSettings:
     Returns:
         CommonSettings: The settings for the API.
     """
-    if ENV == "prod":
-        return ProdSettings()  # type: ignore
-    if ENV == "amm-dev":
-        return AmmDevSettings()  # type: ignore
-    if ENV == "dev":
-        return DevSettings()  # type: ignore
-    return CommonSettings()  # type: ignore
+    settings_map = {
+        "prod": ProdSettings(),
+        "dev": DevSettings(),
+        "amm_dev": AmmDevSettings(),
+    }
+    return settings_map.get(ENV, DevSettings())
 
 
 settings = get_settings()

@@ -10,10 +10,7 @@ router = APIRouter(
     prefix="/account",
     tags=["account"],
     dependencies=[Depends(get_xrpl_client)],
-    responses={
-        400: {"description": "Invalid Request"},
-        404: {"description": "Account Not Found"},
-    },
+    responses={"400": {"description": "Request failed"}},
 )
 
 
@@ -25,4 +22,8 @@ async def get_account_info(
     """
     Fetches the account information for a given XRPL address.
     """
-    return await fetch_account_info(client=client, address=account)
+    result = await fetch_account_info(address=account, client=client)
+
+    status_code = 400 if "error" in result else 200
+
+    return JSONResponse(content=result, status_code=status_code)

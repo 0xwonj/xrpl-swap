@@ -1,13 +1,12 @@
 from typing import Any
 
-from fastapi.responses import JSONResponse
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 from xrpl.models.requests import AccountInfo, Request
 
 from app.xrpl.client import create_json_response
 
 
-async def fetch_account_info(client: AsyncJsonRpcClient, address: str, **kwargs: Any) -> JSONResponse:
+async def fetch_account_info(address: str, client: AsyncJsonRpcClient, **kwargs: Any) -> dict[str, Any]:
     """
     Fetches account information asynchronously from the XRPL network.
 
@@ -21,10 +20,10 @@ async def fetch_account_info(client: AsyncJsonRpcClient, address: str, **kwargs:
             (status_code) 200: Request successful.
                           400: Request failed.
     """
-    return await request_ledger(client, AccountInfo(account=address, **kwargs))
+    return await request_ledger(request=AccountInfo(account=address, **kwargs), client=client)
 
 
-async def request_ledger(client: AsyncJsonRpcClient, request: Request) -> JSONResponse:
+async def request_ledger(request: Request, client: AsyncJsonRpcClient) -> dict[str, Any]:
     """
     Sends a ledger request to the XRPL (XRP Ledger) network asynchronously.
 
@@ -40,5 +39,4 @@ async def request_ledger(client: AsyncJsonRpcClient, request: Request) -> JSONRe
     # Send request and get response
     response = await client.request(request)
 
-    # Return response
-    return create_json_response(response)
+    return response.result

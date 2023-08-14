@@ -20,6 +20,7 @@ xrpl-py = "^2.2.0"
 python-dotenv = "^1.0.0"
 pydantic = "^2.1.1"
 pydantic-settings = "^2.0.2"
+aioredis = "^2.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"

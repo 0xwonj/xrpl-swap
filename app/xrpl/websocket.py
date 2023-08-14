@@ -42,7 +42,8 @@ async def exchange_rate_stream(
 ) -> None:
     """
     Start a stream to listen for the exchange rate between two addresses for a specified amount.
-    This function creates a listener task to monitor messages and sends a `PathFind` request to the XRPL Websocket.
+    This function creates a listener task to monitor messages
+    and sends a `PathFind` request to the XRPL Websocket.
 
     Args:
         source_address (str): The address of the sender in the transaction.

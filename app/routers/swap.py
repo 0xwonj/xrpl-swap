@@ -1,11 +1,10 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
-from xrpl.models.amounts import IssuedCurrencyAmount
-from xrpl.models.transactions import Payment, PaymentFlag
+from xrpl.models.transactions import Payment
 from xrpl.wallet import Wallet
 
-from app.models.annotations import XrplAddress, XrplClient
-from app.models.requests import TokenSwapRequest
+from app.models.annotations import XrplClient
+from app.models.requests import PaymentRequest
 from app.xrpl.client import get_xrpl_client
 from app.xrpl.transaction import submit_transaction
 
@@ -13,112 +12,81 @@ router = APIRouter(
     prefix="/swap",
     tags=["swap"],
     dependencies=[Depends(get_xrpl_client)],
-    responses={
-        400: {"description": "Invalid Transaction"},
-        404: {"description": ""},
-    },
 )
 
 
-@router.post("/buy")
-async def buy_token(
-    request: TokenSwapRequest,
-    account: XrplAddress,
+@router.post("/send")
+async def send_token(request: PaymentRequest, client: XrplClient) -> JSONResponse:
+    """
+    Process a token send on the XRPL. Token is including XRP.
+
+    send_max and destination token should be the same.
+
+    Allows a user to send a specified amount of a token to another
+    XRPL address.
+    """
+    if request.send_max and (
+        request.send_max.symbol,
+        request.send_max.issuer,
+    ) != (
+        request.amount.symbol,
+        request.amount.issuer,
+    ):
+        raise HTTPException(status_code=422, detail="send_max and destination tokens should be the same.")
+
+    if request.account == request.destination:
+        raise HTTPException(status_code=422, detail="source and destination should be the different.")
+
+    transaction = Payment(
+        account=request.account,
+        destination=request.destination,
+        amount=request.amount.to_xrpl_amount(),
+        send_max=request.send_max.to_xrpl_amount() if request.send_max else None,
+    )
+
+    return await submit_transaction(
+        transaction=transaction,
+        wallet=Wallet(public_key=request.public, private_key=request.secret),
+        client=client,
+    )
+
+
+@router.post("/swap")
+async def swap_token(
+    request: PaymentRequest,
     client: XrplClient,
 ) -> JSONResponse:
     """
     Process a token purchase on the XRPL.
 
     Allows a user to buy a specified amount of a token by providing
-    the source currency details, including the max value they are
+    the send_max currency details, including the max value they are
     willing to spend.
-
-    Args:
-        account (str): XRPL account address initiating the purchase.
-        request (TokenSwapRequest): Request data specifying the source
-            currency details and the desired token's details.
-        client (AsyncJsonRpcClient, optional): XRPL client instance for
-            interacting with the XRPL network. Defaults to an instance
-            created by `get_xrpl_client`.
-
-    Returns:
-        Result: Result of the token purchase transaction, including
-            transaction details and status.
     """
-    send_max = IssuedCurrencyAmount(
-        currency=request.source.currency,
-        issuer=request.source.issuer,
-        value=request.source.value,  # This is the max amount to spend
-    )
-    amount = IssuedCurrencyAmount(
-        currency=request.dest.currency,
-        issuer=request.dest.issuer,
-        value=request.dest.value,
-    )
+    if request.send_max and (
+        request.send_max.symbol,
+        request.send_max.issuer,
+    ) == (
+        request.amount.symbol,
+        request.amount.issuer,
+    ):
+        raise HTTPException(
+            status_code=422, detail="send_max and destination tokens should be the different."
+        )
 
-    swap_tx = Payment(account=account, destination=account, send_max=send_max, amount=amount)
+    if request.account != request.destination:
+        raise HTTPException(status_code=422, detail="source and destination should be the same.")
 
-    return await submit_transaction(
-        transaction=swap_tx,
-        client=client,
-        wallet=Wallet(public_key=request.public, private_key=request.secret),
-    )
-
-
-@router.post("/sell")
-async def sell_token(
-    request: TokenSwapRequest,
-    account: XrplAddress,
-    client: XrplClient,
-) -> JSONResponse:
-    """
-    Process a token sale on the XRPL with partial payment support.
-
-    Allows a user to sell a specified amount of a token. The function
-    supports partial payments, meaning the seller can receive an amount
-    less than or equal to the specified `deliver_min` value, depending on
-    the market conditions.
-
-    Args:
-        account (str): XRPL account address initiating the sale.
-        request (TokenSwapRequest): Request data specifying the source
-            token's details and the desired destination currency details.
-        client (AsyncJsonRpcClient, optional): XRPL client instance for
-            interacting with the XRPL network. Defaults to an instance
-            created by `get_xrpl_client`.
-
-    Returns:
-        Result: Result of the token sale transaction, including
-            transaction details and status.
-    """
-
-    send_max = IssuedCurrencyAmount(
-        currency=request.source.currency,
-        issuer=request.source.issuer,
-        value=request.source.value,
-    )
-    amount = IssuedCurrencyAmount(
-        currency=request.dest.currency,
-        issuer=request.dest.issuer,
-        value=request.dest.value,
-    )
-    deliver_min = IssuedCurrencyAmount(
-        currency=request.dest.currency,
-        issuer=request.dest.issuer,
-        value=request.dest.value,
-    )
-
-    swap_tx = Payment(
-        account=account,
-        destination=account,
-        send_max=send_max,
-        amount=amount,
-        deliver_min=deliver_min,
-        flags=[PaymentFlag.TF_PARTIAL_PAYMENT],
+    transaction = Payment(
+        account=request.account,
+        destination=request.destination,
+        amount=request.amount.to_xrpl_amount(),
+        send_max=request.send_max.to_xrpl_amount() if request.send_max else None,
+        deliver_min=request.deliver_min.to_xrpl_amount() if request.deliver_min else None,
     )
 
     return await submit_transaction(
-        transaction=swap_tx,
-        client=client,
+        transaction=transaction,
         wallet=Wallet(public_key=request.public, private_key=request.secret),
+        client=client,
     )

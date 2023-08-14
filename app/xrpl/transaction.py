@@ -9,8 +9,8 @@ from app.xrpl.client import create_json_response
 
 async def submit_transaction(
     transaction: Transaction,
-    client: AsyncJsonRpcClient,
     wallet: Wallet,
+    client: AsyncJsonRpcClient,
 ) -> JSONResponse:
     """
     Submits a transaction to XRPL, waits for a response, and then returns the result.

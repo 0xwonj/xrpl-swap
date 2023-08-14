@@ -29,6 +29,6 @@ async def read_root(request: Request):
             "email": "jjaa1012@gmail.com",
             "github": "https://github.com/Helix-Organization/xrpl-swap",
         },
-        "docs": f"{base_url}/docs",
-        "redoc": f"{base_url}/redoc",
+        "docs": f"{base_url}docs",
+        "redoc": f"{base_url}redoc",
     }

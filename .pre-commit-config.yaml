@@ -19,4 +19,11 @@ repos:
           - id: pylint
             args: ['--rcfile=pyproject.toml']
             additional_dependencies:
-                [python-dotenv, fastapi, uvicorn, pydantic-settings, xrpl-py]
+                [
+                    python-dotenv,
+                    fastapi,
+                    uvicorn,
+                    pydantic-settings,
+                    xrpl-py,
+                    redis,
+                ]

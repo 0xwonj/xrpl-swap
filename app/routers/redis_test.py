@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
-from app.models.annotations import Redis
 from app.database.redis import get_redis
+from app.models.annotations import Redis
 
 router = APIRouter(
     prefix="/redis",
@@ -13,6 +13,9 @@ router = APIRouter(
 
 @router.get("/{key}")
 async def get_item(key: str, cache: Redis) -> JSONResponse:
+    """
+    Get item from Redis cache
+    """
     data: bytes = await cache.get(key)
 
     if data is None:
@@ -27,6 +30,9 @@ async def get_item(key: str, cache: Redis) -> JSONResponse:
 
 @router.post("/{key}={value}")
 async def set_item(key: str, value: str, cache: Redis) -> JSONResponse:
+    """
+    Set item in Redis cache
+    """
     result = await cache.set(key, value)
 
     if result:

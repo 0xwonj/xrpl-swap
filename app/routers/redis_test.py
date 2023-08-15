@@ -11,16 +11,29 @@ router = APIRouter(
 )
 
 
-@router.post("/foo")
-async def set_foo_bar(cache: Redis) -> None:
-    await cache.set("foo", "bar")
+@router.get("/{key}")
+async def get_item(key: str, cache: Redis) -> JSONResponse:
+    data: bytes = await cache.get(key)
+
+    if data is None:
+        status_code = 404
+        result = "Not Found"
+    else:
+        status_code = 200
+        result = data.decode("utf-8")
+
+    return JSONResponse(content={key: result}, status_code=status_code)
 
 
-@router.get("/foo")
-async def get_foo(cache: Redis) -> JSONResponse:
-    data = await cache.get("foo")
+@router.post("/{key}={value}")
+async def set_item(key: str, value: str, cache: Redis) -> JSONResponse:
+    result = await cache.set(key, value)
 
-    if data:
-        data = data.decode("utf-8")
+    if result:
+        status_code = 200
+        data = "Item set successfully"
+    else:
+        status_code = 500
+        data = "Failed to set item in Redis"
 
-    return JSONResponse(content={"foo": data}, status_code=200)
+    return JSONResponse(content={"result": data}, status_code=status_code)

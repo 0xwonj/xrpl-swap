@@ -15,6 +15,7 @@ def create_redis_pool() -> redis.ConnectionPool:
         port=settings.REDIS_PORT,
         db=settings.REDIS_DB,
         encoding="utf-8",
+        decode_responses=True,
         protocol=3,
     )
 

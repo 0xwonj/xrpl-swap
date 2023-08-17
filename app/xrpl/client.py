@@ -5,7 +5,7 @@ from xrpl.models.response import Response
 from app.common.config import settings
 
 
-async def get_xrpl_client(url: str | None = None) -> AsyncJsonRpcClient:
+def get_xrpl_client(url: str | None = None) -> AsyncJsonRpcClient:
     """
     Returns an AsyncJsonRpcClient instance connected to the specified XRPL environment.
 
@@ -18,7 +18,7 @@ async def get_xrpl_client(url: str | None = None) -> AsyncJsonRpcClient:
     return AsyncJsonRpcClient(settings.json_rpc_url if url is None else url)
 
 
-async def get_xrpl_ws_client(url: str | None = None) -> AsyncWebsocketClient:
+def get_xrpl_ws_client(url: str | None = None) -> AsyncWebsocketClient:
     """
     Returns an AsyncWebsocketClient instance connected to the specified XRPL environment.
 

@@ -100,7 +100,7 @@ class ProdSettings(CommonSettings):
 
     # XRP Ledger
     json_rpc_url: str = "https://s1.ripple.com:51234"  # Mainnet
-    websocket_url: str = "wss://s1.ripple.com"
+    websocket_url: str = "wss://xrpl.ws/"
     wallet: Wallet = Wallet(
         address="rnwjHhgiNQSYfJndh1AiRBmcRKmPu2qzGs",
         public_key="ED08DEED03322A7BB4C33FEDF6B416E37E45B3927ABDAE54FF6BCFCCB7A9C33C78",

@@ -5,10 +5,6 @@ from pydantic_settings import BaseSettings
 
 from app.models.types import Wallet
 
-load_dotenv()
-
-ENV = os.getenv("XRPL_ENV", "dev")
-
 
 class CommonSettings(BaseSettings):
     """
@@ -124,7 +120,9 @@ def get_settings() -> CommonSettings:
         "dev": DevSettings(),
         "amm_dev": AmmDevSettings(),
     }
-    return settings_map.get(ENV, DevSettings())
+
+    load_dotenv()
+    return settings_map.get(os.getenv("ENV", "dev"), DevSettings())
 
 
 settings = get_settings()

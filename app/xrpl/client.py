@@ -2,7 +2,7 @@ from fastapi.responses import JSONResponse
 from xrpl.asyncio.clients import AsyncJsonRpcClient, AsyncWebsocketClient
 from xrpl.models.response import Response
 
-from app.common.config import settings
+from common.config import settings
 
 
 def get_xrpl_client(url: str | None = None) -> AsyncJsonRpcClient:

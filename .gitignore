@@ -18,6 +18,7 @@ poetry.lock
 *.swp
 *.swo
 *.swn
+.mypy_cache/
 
 # OS
 .DS_Store

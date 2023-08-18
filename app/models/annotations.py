@@ -7,7 +7,7 @@ from xrpl.asyncio.clients import AsyncJsonRpcClient
 from app.xrpl.client import get_xrpl_client
 from common.config import settings
 from common.constants import XRPL_ADDRESS_REGEX
-from app.database.redis import get_redis
+from database.redis import get_redis
 
 XrplAddress = Annotated[
     str,

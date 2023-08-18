@@ -1,6 +1,6 @@
 import redis.asyncio as redis
 
-from app.common.config import settings
+from common.config import settings
 
 
 def create_redis_pool() -> redis.ConnectionPool:

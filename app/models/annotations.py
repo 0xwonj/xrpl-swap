@@ -4,10 +4,10 @@ import redis.asyncio as redis
 from fastapi import Depends, Path
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 
-from app.xrpl.client import get_xrpl_client
 from common.config import settings
 from common.constants import XRPL_ADDRESS_REGEX
 from database.redis import get_redis
+from xrpledger.client import get_xrpl_client
 
 XrplAddress = Annotated[
     str,

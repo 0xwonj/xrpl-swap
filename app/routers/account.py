@@ -3,8 +3,8 @@ from fastapi.responses import JSONResponse
 
 from app.models.annotations import XrplAddress, XrplClient
 from app.models.responses import AccountInfoResponse
-from app.xrpl.client import get_xrpl_client
-from app.xrpl.request import fetch_account_info
+from xrpledger.client import get_xrpl_client
+from xrpledger.request import fetch_account_info
 
 router = APIRouter(
     prefix="/account",

@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings
 
-from app.models.types import Wallet
+from xrpledger.models import Wallet
 
 
 class CommonSettings(BaseSettings):

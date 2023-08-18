@@ -5,8 +5,8 @@ from xrpl.wallet import Wallet
 
 from app.models.annotations import XrplClient
 from app.models.requests import PaymentRequest
-from app.xrpl.client import get_xrpl_client
-from app.xrpl.transaction import submit_transaction
+from xrpledger.client import get_xrpl_client
+from xrpledger.transaction import submit_transaction
 
 router = APIRouter(
     prefix="/swap",
@@ -44,11 +44,15 @@ async def send_token(request: PaymentRequest, client: XrplClient) -> JSONRespons
         send_max=request.send_max.to_xrpl_amount() if request.send_max else None,
     )
 
-    return await submit_transaction(
+    result = await submit_transaction(
         transaction=transaction,
         wallet=Wallet(public_key=request.public, private_key=request.secret),
         client=client,
     )
+
+    status_code = 400 if "error" in result else 200
+
+    return JSONResponse(content=result, status_code=status_code)
 
 
 @router.post("/swap")
@@ -85,8 +89,12 @@ async def swap_token(
         deliver_min=request.deliver_min.to_xrpl_amount() if request.deliver_min else None,
     )
 
-    return await submit_transaction(
+    result = await submit_transaction(
         transaction=transaction,
         wallet=Wallet(public_key=request.public, private_key=request.secret),
         client=client,
     )
+
+    status_code = 400 if "error" in result else 200
+
+    return JSONResponse(content=result, status_code=status_code)

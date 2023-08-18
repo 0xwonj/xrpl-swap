@@ -8,55 +8,55 @@ Before diving into changes, please either discuss them with the team or post the
 
 ### 2. Fork & Create a Branch
 
--   **Fork the repo** and then clone it locally:
+- **Fork the repo** and then clone it locally:
 
-    -   HTTPS:
-
-        ```bash
-        git clone https://github.com/<your-username>/xrpl-swap.git
-        ```
-
-    -   SSH:
-
-        ```bash
-        git clone git@github.com:/<your-username>/xrpl-swap.git
-        ```
-
--   **Navigate to your local fork**: `cd xrpl-swap`.
-
--   **Create a branch** for your feature or bugfix:
+  - HTTPS:
 
     ```bash
-    git checkout -b <branch-name>
+    git clone https://github.com/<your-username>/xrpl-swap.git
     ```
+
+  - SSH:
+
+    ```bash
+    git clone git@github.com:/<your-username>/xrpl-swap.git
+    ```
+
+- **Navigate to your local fork**: `cd xrpl-swap`.
+
+- **Create a branch** for your feature or bugfix:
+
+  ```bash
+  git checkout -b <branch-name>
+  ```
 
 ### 3. Setup Your Environment
 
 Before you begin your work, ensure your environment is correctly configured:
 
--   **Poetry Setup**:
+- **Poetry Setup**:
 
-    If you haven't installed Poetry yet, you can do so by following the instructions [here](https://python-poetry.org/docs/).
+  If you haven't installed Poetry yet, you can do so by following the instructions [here](https://python-poetry.org/docs/).
 
-    ```bash
-    poetry install
-    ```
+  ```bash
+  poetry install
+  ```
 
-    This will install all the project's dependencies and add your project to the virtual environment.
+  This will install all the project's dependencies and add your project to the virtual environment.
 
--   **Pre-commit Setup**:
+- **Pre-commit Setup**:
 
-    We use `pre-commit` to enforce a coding style and catch common issues. Install it with:
+  We use `pre-commit` to enforce a coding style and catch common issues. Install it with:
 
-    ```bash
-    pip install pre-commit
-    ```
+  ```bash
+  pip install pre-commit
+  ```
 
-    Then, set it up for the repo with:
+  Then, set it up for the repo with:
 
-    ```bash
-    pre-commit install
-    ```
+  ```bash
+  pre-commit install
+  ```
 
 ### 4. Committing Your Changes
 
@@ -70,16 +70,16 @@ Follow the commit message convention using gitmoji:
 
 Where `<emoji>` and `<type>` can be one of the following:
 
--   ✨`feat`: For introducing new features
--   🐛`fix`: For bug fixes
--   🎨`style`: For changes related to styling and appearance
--   📝`docs`: Documentation-only changes
--   ♻️`refactor`: Code refactoring without changing any logic
--   ⚡️`perf`: Code changes to improve performance
--   ✅`test`: Adding missing tests or corrections
--   🔧`chore`: Build process or auxiliary tool changes
--   🔀`merge`: Merging branches or introducing changes from upstream
--   ⏪`revert`: Reverting changes
+- ✨`feat`: For introducing new features
+- 🐛`fix`: For bug fixes
+- 🎨`style`: For changes related to styling and appearance
+- 📝`docs`: Documentation-only changes
+- ♻️`refactor`: Code refactoring without changing any logic
+- ⚡️`perf`: Code changes to improve performance
+- ✅`test`: Adding missing tests or corrections
+- 🔧`chore`: Build process or auxiliary tool changes
+- 🔀`merge`: Merging branches or introducing changes from upstream
+- ⏪`revert`: Reverting changes
 
 Example:
 
@@ -91,23 +91,23 @@ Make sure your commit messages clearly describe what the commit does. In additio
 
 ### 5. Submitting a Pull Request
 
--   Push your branch to your fork on GitHub:
+- Push your branch to your fork on GitHub:
 
-    ```bash
-    git push origin <branch-name>
-    ```
+  ```bash
+  git push origin <branch-name>
+  ```
 
--   From your fork, **open a pull request** in the main repo.
+- From your fork, **open a pull request** in the main repo.
 
--   Once the pull request is approved and merged, you can pull the changes from the main repo and delete your branch (if you wish).
+- Once the pull request is approved and merged, you can pull the changes from the main repo and delete your branch (if you wish).
 
 ---
 
 ## 📖 Further Reading
 
--   [Poetry Documentation](https://python-poetry.org/docs/)
--   [Pre-commit Documentation](https://pre-commit.com/)
--   [Git and GitHub Learning Resources](https://docs.github.com/en/get-started/quickstart/git-and-github-learning-resources)
+- [Poetry Documentation](https://python-poetry.org/docs/)
+- [Pre-commit Documentation](https://pre-commit.com/)
+- [Git and GitHub Learning Resources](https://docs.github.com/en/get-started/quickstart/git-and-github-learning-resources)
 
 ---
 

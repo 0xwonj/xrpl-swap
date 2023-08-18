@@ -1,9 +1,9 @@
 ---
-name: '📝 Documentation update'
-about: 'Suggest an update for an existing documentation page.'
-title: '📝 Documentation: '
-labels: 'documentation'
-assignees: ''
+name: "📝 Documentation update"
+about: "Suggest an update for an existing documentation page."
+title: "📝 Documentation: "
+labels: "documentation"
+assignees: ""
 ---
 
 **Description**

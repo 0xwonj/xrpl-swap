@@ -1,8 +1,9 @@
 import asyncio
 
+from etl.xrpl.exchange_rate import exchange_rate_stream
+from etl.xrpl.exchange_rate import listener as exchange_rate_listener
 from xrpledger.client import get_xrpl_ws_client
 from xrpledger.models import Amount
-from etl.xrpl.exchange_rate import exchange_rate_stream, listener as exchange_rate_listener
 
 
 async def connect_xrpl() -> None:

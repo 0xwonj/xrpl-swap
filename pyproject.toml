@@ -7,8 +7,9 @@ name = "xrpl-swap"
 version = "0.1.0"
 description = "Backend API for XRPL Swap"
 authors = ["wonj1012 <jjaa1012@gmail.com>"]
+maintainers = ["wonj1012 <jjaa1012@gmail.com>"]
 readme = "README.md"
-license = ""
+license = "CC BY-NC-ND 4.0"
 homepage = "https://xrplswap.xyz"
 repository = "https://github.com/Helix-Organization/xrpl-swap"
 
@@ -18,8 +19,9 @@ fastapi = "^0.101.0"
 uvicorn = {extras = ["all"], version = "^0.23.2"}
 xrpl-py = "^2.2.0"
 python-dotenv = "^1.0.0"
+pydantic-settings = "^2.0.3"
 pydantic = "^2.1.1"
-pydantic-settings = "^2.0.2"
+redis = {extras = ["hiredis"], version = "^5.0.0"}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"

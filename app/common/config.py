@@ -5,23 +5,26 @@ from pydantic_settings import BaseSettings
 
 from app.models.types import Wallet
 
-load_dotenv()
-
-ENV = os.getenv("XRPL_ENV", "dev")
-
 
 class CommonSettings(BaseSettings):
     """
     Common settings for the API.
     """
 
+    # Project
     PROJECT_NAME: str = "XRPL Swap API"
     API_VERSION: str = "0.0.1"
     API_PREFIX: str = "/api/v1"
 
-    DEBUG_MODE: bool = False
+    # FastAPI
     LIVE_RELOAD: bool = False
 
+    # Redis
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+
+    # XRP Ledger
     json_rpc_url: str
     websocket_url: str
     wallet: Wallet
@@ -41,9 +44,15 @@ class DevSettings(CommonSettings):
     Development settings for the API.
     """
 
-    DEBUG_MODE: bool = True
+    # FastAPI
     LIVE_RELOAD: bool = True
 
+    # Redis
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+
+    # XRP Ledger
     json_rpc_url: str = "https://s.altnet.rippletest.net:51234"  # Testnet
     websocket_url: str = "wss://s.altnet.rippletest.net:51233"  # Testnet
     wallet: Wallet = Wallet(
@@ -58,9 +67,15 @@ class AmmDevSettings(CommonSettings):
     AMM-Devnet settings for the API.
     """
 
-    DEBUG_MODE: bool = True
+    # FastAPI
     LIVE_RELOAD: bool = True
 
+    # Redis
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+
+    # XRP Ledger
     json_rpc_url: str = "https://amm.devnet.rippletest.net:51234"  # AMM-Devnet
     websocket_url: str = "wss://amm.devnet.rippletest.net:51233"
     wallet: Wallet = Wallet(
@@ -75,11 +90,17 @@ class ProdSettings(CommonSettings):
     Production settings for the API.
     """
 
-    DEBUG_MODE: bool = False
+    # FastAPI
     LIVE_RELOAD: bool = False
 
+    # Redis
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+
+    # XRP Ledger
     json_rpc_url: str = "https://s1.ripple.com:51234"  # Mainnet
-    websocket_url: str = "wss://s1.ripple.com"
+    websocket_url: str = "wss://xrpl.ws/"
     wallet: Wallet = Wallet(
         address="rnwjHhgiNQSYfJndh1AiRBmcRKmPu2qzGs",
         public_key="ED08DEED03322A7BB4C33FEDF6B416E37E45B3927ABDAE54FF6BCFCCB7A9C33C78",
@@ -99,7 +120,9 @@ def get_settings() -> CommonSettings:
         "dev": DevSettings(),
         "amm_dev": AmmDevSettings(),
     }
-    return settings_map.get(ENV, DevSettings())
+
+    load_dotenv()
+    return settings_map.get(os.getenv("ENV", "dev"), DevSettings())
 
 
 settings = get_settings()

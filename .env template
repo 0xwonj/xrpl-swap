@@ -3,4 +3,4 @@
 # XRPL Environment setting.
 # Choose the environment for XRPL. Available options: TESTNET, MAINNET, AMMDEVNET.
 # Default is MAINNET if not specified.
-XRPL_ENVIRONMENT=
+ENV=

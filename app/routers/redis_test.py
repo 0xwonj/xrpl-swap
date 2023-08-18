@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, Path
 from fastapi.responses import JSONResponse
 
-from app.models.annotations import Redis
+from app.models import Redis
 from database.redis import get_redis
 
 router = APIRouter(

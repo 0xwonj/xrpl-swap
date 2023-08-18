@@ -4,25 +4,25 @@ This backend API is built using [FastAPI](https://fastapi.tiangolo.com/), a mode
 
 ## Requirements
 
--   [Python 3.11+](https://www.python.org/downloads/)
--   [Poetry](https://python-poetry.org/docs/#installation)
+- [Python 3.11+](https://www.python.org/downloads/)
+- [Poetry](https://python-poetry.org/docs/#installation)
 
 ## Setting Up for Development
 
 1. Ensure Python 3.11 or higher is installed on your system:
 
-    ```bash
-    python3 --version
-    ```
+   ```bash
+   python3 --version
+   ```
 
 2. Clone this repository to your local machine.
 
 3. Using the terminal, navigate to the project's root directory.
 
 4. Install the required dependencies using `poetry`:
-    ```bash
-    poetry install
-    ```
+   ```bash
+   poetry install
+   ```
 
 ## Running the Server Locally
 

@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
-from app.models.annotations import XrplAddress, XrplClient
-from app.models.responses import AccountInfoResponse
+from app.models import AccountInfoResponse, XrplAddress, XrplClient
 from xrpledger.client import get_xrpl_client
 from xrpledger.request import fetch_account_info
 

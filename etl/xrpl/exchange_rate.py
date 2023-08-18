@@ -3,6 +3,7 @@ from typing import Optional
 from xrpl.asyncio.clients import AsyncWebsocketClient
 from xrpl.models import PathFind, PathFindSubcommand
 
+from database.redis import get_redis
 from xrpledger.models import Amount
 
 
@@ -62,7 +63,7 @@ async def handle_path_find(message: dict) -> None:
     source_amount = float(message["alternatives"][0]["source_amount"])
     dest_amount_value = float(message["destination_amount"]["value"])
     exchange_rate = source_amount / dest_amount_value
-    print(exchange_rate)
+    await get_redis().set(name="rate", value=exchange_rate)
 
 
 async def handle_unexpected(message: dict) -> None:

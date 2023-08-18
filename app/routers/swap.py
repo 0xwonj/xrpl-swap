@@ -3,8 +3,7 @@ from fastapi.responses import JSONResponse
 from xrpl.models.transactions import Payment
 from xrpl.wallet import Wallet
 
-from app.models.annotations import XrplClient
-from app.models.requests import PaymentRequest
+from app.models import PaymentRequest, XrplClient
 from xrpledger.client import get_xrpl_client
 from xrpledger.transaction import submit_transaction
 

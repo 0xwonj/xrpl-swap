@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 from app.models.annotations import XrplAddress
-from app.models.types import Amount
+from xrpledger.models import Amount
 
 
 class PaymentRequest(BaseModel):

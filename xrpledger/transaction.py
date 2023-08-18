@@ -1,17 +1,16 @@
-from fastapi.responses import JSONResponse
+from typing import Any
+
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 from xrpl.asyncio.transaction import autofill, sign, submit_and_wait
 from xrpl.models.transactions import Transaction
 from xrpl.wallet import Wallet
-
-from app.xrpl.client import create_json_response
 
 
 async def submit_transaction(
     transaction: Transaction,
     wallet: Wallet,
     client: AsyncJsonRpcClient,
-) -> JSONResponse:
+) -> dict[str, Any]:
     """
     Submits a transaction to XRPL, waits for a response, and then returns the result.
 
@@ -21,9 +20,7 @@ async def submit_transaction(
         wallet (Wallet): The wallet containing the keys used for signing the transaction.
 
     Returns:
-        JSONResponse: A JSON response containing details about the outcome of the transaction.
-            (status_code) 200: Transaction successful.
-                          400: Transaction failed.
+        dict[str, Any]: The result of the transaction.
     """
     # Autofill transaction
     filled_tx = await autofill(transaction=transaction, client=client, signers_count=1)
@@ -37,5 +34,5 @@ async def submit_transaction(
     # Send transaction and get response
     response = await submit_and_wait(transaction=signed_tx, client=client, wallet=wallet)
 
-    # Return response
-    return create_json_response(response)
+    # Return result as dictionary
+    return response.result

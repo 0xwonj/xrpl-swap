@@ -3,7 +3,7 @@ from typing import Any
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 from xrpl.models.requests import AccountInfo, Request, RipplePathFind
 
-from app.models.types import Amount
+from xrpledger.models import Amount
 
 
 async def fetch_account_info(address: str, client: AsyncJsonRpcClient, **kwargs: Any) -> dict[str, Any]:

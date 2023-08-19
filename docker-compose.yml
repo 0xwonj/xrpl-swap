@@ -1,0 +1,55 @@
+version: "3.8"
+
+x-common-settings: &common-settings
+  env_file:
+    - .env
+  environment:
+    - REDIS_HOST=redis
+    - REDIS_PORT=6379
+    - REDIS_DB=0
+  volumes:
+    - ./common:/code/common
+    - ./database:/code/database
+    - ./xrpledger:/code/xrpledger
+  depends_on:
+    - redis
+
+services:
+  # FastAPI
+  api:
+    build: .
+    command:
+      - uvicorn
+      - app.main:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+      - --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/code/app
+    <<: *common-settings
+
+  # ETL
+  etl:
+    build: .
+    command:
+      - python
+      - -m
+      - etl.main
+    volumes:
+      - ./etl:/code/etl
+    <<: *common-settings
+
+  # Redis
+  redis:
+    image: "redis:7.2"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

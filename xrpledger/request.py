@@ -47,13 +47,14 @@ async def get_exchange_rate(
             destination_account=destination_address,
             destination_amount=destination_amount.to_xrpl_amount(),
             send_max=send_amount.to_xrpl_amount(),
+            ledger_index="current",
         ),
         client=client,
     )
 
     if "alternatives" in result and result["alternatives"]:
         alternative = result["alternatives"][0]
-        source_amount = float(alternative["source_amount"]["value"])
+        source_amount = float(alternative["source_amount"])
         return source_amount
 
     return None

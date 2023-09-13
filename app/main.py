@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.routers.account import router as account_router
 from app.routers.redis_test import router as redis_router
@@ -43,7 +43,7 @@ async def read_root(request: Request) -> JSONResponse:
             "version": settings.API_VERSION,
             "description": "API for XRPL-Swap",
             "contact": {
-                "email": "jjaa1012@gmail.com",
+                "email": "choi@wonj.me",
                 "github": "https://github.com/Helix-Organization/xrpl-swap",
             },
             "docs": f"{base_url}docs",

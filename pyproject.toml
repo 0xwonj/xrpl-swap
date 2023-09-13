@@ -6,8 +6,8 @@ build-backend = "poetry.core.masonry.api"
 name = "xrpl-swap"
 version = "0.1.0"
 description = "Backend API for XRPL Swap"
-authors = ["wonj1012 <jjaa1012@gmail.com>"]
-maintainers = ["wonj1012 <jjaa1012@gmail.com>"]
+authors = ["wonj1012 <choi@wonj.me>"]
+maintainers = ["wonj1012 <choi@wonj.me>"]
 readme = "README.md"
 license = "CC BY-NC-ND 4.0"
 homepage = "https://xrplswap.xyz"
@@ -22,6 +22,7 @@ python-dotenv = "^1.0.0"
 pydantic-settings = "^2.0.3"
 pydantic = "^2.1.1"
 redis = {extras = ["hiredis"], version = "^5.0.0"}
+loguru = "^0.7.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"

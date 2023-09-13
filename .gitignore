@@ -7,10 +7,6 @@ __pycache__/
 dist/
 build/
 
-# Dependencies
-requirements.txt
-poetry.lock
-
 # IDEs / editors
 .vscode/
 *.code-workspace

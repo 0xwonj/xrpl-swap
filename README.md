@@ -2,63 +2,46 @@
 
 This backend API is built using [FastAPI](https://fastapi.tiangolo.com/), a modern, high-performance web framework for building APIs with Python 3. Additionally, the backend interacts with the XRP Ledger through the [xrpl-py](https://xrpl-py.readthedocs.io/en/stable/) library, a pure Python implementation of the XRP Ledger.
 
-## Requirements
+## Prerequisites
 
-- [Python 3.11+](https://www.python.org/downloads/)
-- [Poetry](https://python-poetry.org/docs/#installation)
+- [Docker](https://www.docker.com/)
+- Docker Compose
 
-## Setting Up for Development
+## Project Structure
 
-1. Ensure Python 3.11 or higher is installed on your system:
+This backend solution is categorized into three major components:
+
+1. [**FastAPI**](app) (API Endpoint Exposures)
+2. [**ETL**](etl) (Data Extraction, Transformation, and Loading)
+3. [**Redis**](database) (In-memory data structure store)
+
+## Development Setup
+
+1. Clone the repository to your local machine.
+
+2. Navigate to the project's root directory using the terminal.
+
+3. Make sure to set up the `.env` file using the provided [`.env-template`](.env-template) before proceeding further.
+
+## Running the Application using Docker
+
+1. To initiate the application, use the following Docker command:
 
    ```bash
-   python3 --version
+   docker compose up --build -d
    ```
 
-2. Clone this repository to your local machine.
+2. Once executed, the application will run on `http://0.0.0.0:8000/`.
 
-3. Using the terminal, navigate to the project's root directory.
+3. To shut down the application and its services:
 
-4. Install the required dependencies using `poetry`:
    ```bash
-   poetry install
+   docker compose down
    ```
-
-## Running the Server Locally
-
-While in the project's root directory, initiate the virtual environment and run the server using `poetry` with the following command:
-
-```bash
-poetry run python -m main
-```
-
-The server will start in development mode with hot-reloading enabled. You should see an output indicating the server is running on `http://127.0.0.1:8000/`.
-
-For interactive API documentation, open your web browser and navigate to `http://127.0.0.1:8000/docs`. Alternatively, use API clients like Postman to send requests to your application.
-
-## Testing
-
-From the project's root directory, run the tests using:
-
-```bash
-poetry run pytest
-```
-
-Make sure all tests pass before committing or opening a pull request.
-
-## Deployment
-
-<!-- Add description how to deploy to the server -->
 
 ## API Endpoints
 
-The FastAPI server offers several endpoints, including:
-
-1. `api/account`
-
-2. `api/swap`
-
-For a comprehensive list of endpoints and their documentation, please refer to FastAPI's interactive API documentation located at `http://<your-server-url>/docs`.
+A complete list of endpoints and their descriptions can be found in the FastAPI's interactive API documentation ([swagger](https://swagger.io/)) at `http://<your-server-url>/docs`.
 
 ## Contributing
 
@@ -66,6 +49,6 @@ If you wish to contribute to this project, kindly go through our [CONTRIBUTING.m
 
 ## License
 
-This project is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0). This means you are free to copy and redistribute the material in any medium or format, but you must give appropriate credit, cannot use the material for commercial purposes, and cannot create derivative works based on it.
+This project adheres to the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0). You're permitted to copy and distribute the material across various mediums. However, appropriate credit is essential, and commercial usage or derivative works creation isn't allowed.
 
-For more details, please see the [LICENSE.md](LICENSE.md) file or visit the [official license page](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+For a comprehensive understanding, refer to the [LICENSE.md](LICENSE.md) documentation or the [official license page](https://creativecommons.org/licenses/by-nc-nd/4.0/).

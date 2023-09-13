@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers.account import router as account_router
 from app.routers.redis_test import router as redis_router
@@ -8,6 +9,17 @@ from common.config import settings
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:4427",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 api_router_config = {"prefix": "/api"}
 ws_router_config = {"prefix": "/ws"}

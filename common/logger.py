@@ -1,12 +1,18 @@
-from loguru import logger
+import os
+
+import loguru
 
 
-def get_logger(env: str) -> logger:
-    logger.add("logs/app.log", rotation="500 MB")
-    logger.info(f"Environment: {env}")
-    return logger
+def get_logger() -> loguru.logger:
+    """
+    Get the loguru logger for the application.
+
+    Returns:
+        logger: The loguru logger for the application.
+    """
+    loguru.logger.add("logs/app.log", rotation="500 MB")
+    loguru.logger.info(f"Environment: {os.getenv('ENV', 'dev')}")
+    return loguru.logger
 
 
-if __name__ == "__main__":
-    log = get_logger("dev")
-    log.info("Hello, world!")
+logger = get_logger()

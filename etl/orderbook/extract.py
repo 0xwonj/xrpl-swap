@@ -9,16 +9,16 @@ async def extract_orderbook(
     client: AsyncJsonRpcClient,
 ) -> dict[str, any]:
     """
+    Retrieves the order book data for a given token pair.
+
     Args:
-        taker_gets (Amount): _description_
-        taker_pays (Amount): _description_
-        client (AsyncWebsocketClient, optional): _description_. Defaults to Depends(get_xrpl_ws_client).
+        taker_gets (Token): The token that the taker is willing to offer.
+        taker_pays (Token): The token that the taker wants in exchange.
+        client (AsyncJsonRpcClient): An asynchronous JSON RPC client used to fetch the data.
 
     Returns:
-        dict[str, Any]: _description_
+        dict[str, Any]: A dictionary containing the orderbook offers.
     """
     orderbook_info = await get_orderbook(taker_gets, taker_pays, client)
-
-    offers = orderbook_info["offers"]
-
-    return offers
+    
+    return orderbook_info["offers"]

@@ -1,0 +1,30 @@
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, Body
+from fastapi.responses import JSONResponse
+
+from app.models import Redis
+from database.redis import get_redis
+from xrpledger.models import Token
+from etl.orderbook.read import get_quality
+
+router = APIRouter(
+    prefix="/orderbook",
+    tags=["orderbook"],
+    dependencies=[Depends(get_redis)],
+)
+
+
+@router.post("/quality")
+async def get_orderbook_quality(
+    token_from: Annotated[Token, Body()], token_to: Annotated[Token, Body()], from_amount: Annotated[float, Body()], redis: Redis
+) -> JSONResponse:
+    """
+    Get orderbook quality from Redis
+    """
+    # Get quality from Redis
+    quality = await get_quality((token_from, token_to), from_amount, redis=redis)
+
+    status_code = 200 if (quality > 0) else 404
+
+    return JSONResponse(content={"quality": quality}, status_code=status_code)

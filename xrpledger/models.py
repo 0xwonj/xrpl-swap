@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import BaseModel, validator
 from xrpl.models.amounts import Amount as XrplAmount
 from xrpl.models.amounts import IssuedCurrencyAmount
+from xrpl.models.currencies import XRP, IssuedCurrency
 
 
 class Wallet(BaseModel):
@@ -86,3 +87,29 @@ class Amount(BaseModel):
                 value=self.value,
             )
         raise ValueError("Issuer is required for non-XRP symbols.")
+
+
+class Token(BaseModel):
+    """
+    A model representing a token on the XRP Ledger.
+    """
+
+    currency: str
+    issuer: str
+
+    def to_xrpl_currency(self) -> IssuedCurrency | XRP:
+        """
+        Convert the Token model to an IssuedCurrency or XRP model.
+
+        Returns:
+            IssuedCurrency | XRP: Token instances of xrpl
+        """
+        if self.currency == "XRP" and self.issuer == "":
+            return XRP()
+        return IssuedCurrency(
+            currency=self.currency,
+            issuer=self.issuer,
+        )
+
+    def __str__(self) -> str:
+        return f"{self.currency}.{self.issuer}"

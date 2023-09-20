@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from xrpl.models.amounts import IssuedCurrencyAmount
 from xrpl.models.currencies import XRP, IssuedCurrency
 
@@ -22,6 +22,7 @@ class Token(BaseModel):
 
     currency: str
     issuer: str
+    model_config = ConfigDict(frozen=True)
 
     def to_xrpl_currency(self) -> IssuedCurrency | XRP:
         """

@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.routers.account import router as account_router
-from app.routers.orderbook import router as orderbook_router
+from app.routers.offer import router as orderbook_router
 from app.routers.redis_test import router as redis_router
 from app.routers.payment import router as swap_router
 from common.config import settings

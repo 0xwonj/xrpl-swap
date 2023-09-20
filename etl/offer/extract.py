@@ -4,13 +4,13 @@ from xrpledger.models import Token
 from xrpledger.request import get_orderbook
 
 
-async def extract_orderbook(
+async def extract_offers(
     taker_gets: Token,
     taker_pays: Token,
     client: AsyncJsonRpcClient,
 ) -> dict[str, any]:
     """
-    Retrieves the order book data for a given token pair.
+    Retrieves the offer data for a given token pair.
 
     Args:
         taker_gets (Token): The token that the taker is willing to offer.

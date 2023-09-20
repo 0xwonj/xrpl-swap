@@ -5,25 +5,25 @@ from fastapi.responses import JSONResponse
 
 from app.models import Redis
 from database.redis import get_redis
-from etl.orderbook.read import get_quality
+from etl.offer.read import get_quality
 from xrpledger.models import Token
 
 router = APIRouter(
-    prefix="/orderbook",
-    tags=["orderbook"],
+    prefix="/offer",
+    tags=["offer"],
     dependencies=[Depends(get_redis)],
 )
 
 
 @router.post("/quality")
-async def get_orderbook_quality(
+async def get_offer_quality(
     token_from: Annotated[Token, Body()],
     token_to: Annotated[Token, Body()],
     from_amount: Annotated[float, Body()],
     redis: Redis,
 ) -> JSONResponse:
     """
-    Get orderbook quality from Redis
+    Get offer quality from Redis
     """
     # Get quality from Redis
     quality = await get_quality((token_from, token_to), from_amount, redis=redis)

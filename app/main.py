@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from app.routers.account import router as account_router
 from app.routers.orderbook import router as orderbook_router
 from app.routers.redis_test import router as redis_router
-from app.routers.swap import router as swap_router
+from app.routers.payment import router as swap_router
 from common.config import settings
 
 app = FastAPI()

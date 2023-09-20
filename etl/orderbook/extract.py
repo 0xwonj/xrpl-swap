@@ -1,6 +1,7 @@
 from xrpl.asyncio.clients import AsyncJsonRpcClient
-from xrpledger.request import get_orderbook
+
 from xrpledger.models import Token
+from xrpledger.request import get_orderbook
 
 
 async def extract_orderbook(
@@ -20,5 +21,5 @@ async def extract_orderbook(
         dict[str, Any]: A dictionary containing the orderbook offers.
     """
     orderbook_info = await get_orderbook(taker_gets, taker_pays, client)
-    
+
     return orderbook_info["offers"]

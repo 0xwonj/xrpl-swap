@@ -1,12 +1,12 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Body
+from fastapi import APIRouter, Body, Depends
 from fastapi.responses import JSONResponse
 
 from app.models import Redis
 from database.redis import get_redis
-from xrpledger.models import Token
 from etl.orderbook.read import get_quality
+from xrpledger.models import Token
 
 router = APIRouter(
     prefix="/orderbook",
@@ -17,7 +17,10 @@ router = APIRouter(
 
 @router.post("/quality")
 async def get_orderbook_quality(
-    token_from: Annotated[Token, Body()], token_to: Annotated[Token, Body()], from_amount: Annotated[float, Body()], redis: Redis
+    token_from: Annotated[Token, Body()],
+    token_to: Annotated[Token, Body()],
+    from_amount: Annotated[float, Body()],
+    redis: Redis,
 ) -> JSONResponse:
     """
     Get orderbook quality from Redis

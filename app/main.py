@@ -3,9 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.routers.account import router as account_router
-from app.routers.offer import router as orderbook_router
+from app.routers.offer import router as offer_router
+from app.routers.payment import router as payment_router
 from app.routers.redis_test import router as redis_router
-from app.routers.payment import router as swap_router
 from common.config import settings
 
 app = FastAPI()
@@ -26,9 +26,9 @@ api_router_config = {"prefix": "/api"}
 ws_router_config = {"prefix": "/ws"}
 
 app.include_router(account_router, **api_router_config)  # type: ignore
-app.include_router(swap_router, **api_router_config)  # type: ignore
+app.include_router(payment_router, **api_router_config)  # type: ignore
 app.include_router(redis_router, **api_router_config)  # type: ignore
-app.include_router(orderbook_router, **api_router_config)  # type: ignore
+app.include_router(offer_router, **api_router_config)  # type: ignore
 
 
 @app.get("/")

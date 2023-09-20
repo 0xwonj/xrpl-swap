@@ -52,6 +52,22 @@ class Token(BaseModel):
             value=value,
         )
 
+    @classmethod
+    def from_string(cls, string: str) -> "Token":
+        """
+        Create a Token object from a string representation.
+
+        Args:
+            s (str): The string representation of a Token in the format "currency.issuer".
+
+        Returns:
+            Token: An instance of the Token class.
+        """
+        if "." not in string:
+            raise ValueError("Invalid format. Expected 'currency.issuer' format.")
+        currency, issuer = string.split(".", 1)
+        return cls(currency=currency, issuer=issuer)
+
     def __str__(self) -> str:
         return f"{self.currency}.{self.issuer}"
 

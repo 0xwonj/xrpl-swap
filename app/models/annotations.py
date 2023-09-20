@@ -7,7 +7,7 @@ from xrpl.asyncio.clients import AsyncJsonRpcClient
 from common.config import settings
 from common.constants import XRPL_ADDRESS_REGEX
 from database.redis import get_redis
-from xrpledger.client import get_xrpl_client
+from xrpledger.client import get_xrpl_rpc_client
 
 XrplAddress = Annotated[
     str,
@@ -19,6 +19,6 @@ XrplAddress = Annotated[
     ),
 ]
 
-XrplClient = Annotated[AsyncJsonRpcClient, Depends(get_xrpl_client)]
+XrplClient = Annotated[AsyncJsonRpcClient, Depends(get_xrpl_rpc_client)]
 
 Redis = Annotated[redis.Redis, Depends(get_redis)]

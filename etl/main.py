@@ -2,7 +2,7 @@ import asyncio
 
 from database.redis import get_redis
 from etl.orderbook import calculate_quality, extract_orderbook, quality_to_redis
-from xrpledger.client import get_xrpl_client
+from xrpledger.client import get_xrpl_rpc_client
 from xrpledger.data.tokens import tokens
 from xrpledger.models import Token
 
@@ -18,7 +18,7 @@ async def etl_orderbook(token_pair: tuple[Token, Token]):
     offers = await extract_orderbook(
         taker_gets=token_pair[0],
         taker_pays=token_pair[1],
-        client=get_xrpl_client(),
+        client=get_xrpl_rpc_client(),
     )
     quality = calculate_quality(offers, token_pair)
     await quality_to_redis(quality, redis=get_redis())

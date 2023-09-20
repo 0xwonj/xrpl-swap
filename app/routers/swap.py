@@ -4,13 +4,13 @@ from xrpl.models.transactions import Payment
 from xrpl.wallet import Wallet
 
 from app.models import PaymentRequest, XrplClient
-from xrpledger.client import get_xrpl_client
+from xrpledger.client import get_xrpl_rpc_client
 from xrpledger.transaction import submit_transaction
 
 router = APIRouter(
-    prefix="/swap",
-    tags=["swap"],
-    dependencies=[Depends(get_xrpl_client)],
+    prefix="/payment",
+    tags=["payment"],
+    dependencies=[Depends(get_xrpl_rpc_client)],
 )
 
 
@@ -24,13 +24,7 @@ async def send_token(request: PaymentRequest, client: XrplClient) -> JSONRespons
     Allows a user to send a specified amount of a token to another
     XRPL address.
     """
-    if request.send_max and (
-        request.send_max.symbol,
-        request.send_max.issuer,
-    ) != (
-        request.amount.symbol,
-        request.amount.issuer,
-    ):
+    if request.send_max and (request.send_max.token) != (request.amount.token):
         raise HTTPException(status_code=422, detail="send_max and destination tokens should be the same.")
 
     if request.account == request.destination:
@@ -66,13 +60,7 @@ async def swap_token(
     the send_max currency details, including the max value they are
     willing to spend.
     """
-    if request.send_max and (
-        request.send_max.symbol,
-        request.send_max.issuer,
-    ) == (
-        request.amount.symbol,
-        request.amount.issuer,
-    ):
+    if request.send_max and (request.send_max.token) == (request.amount.token):
         raise HTTPException(
             status_code=422, detail="send_max and destination tokens should be the different."
         )

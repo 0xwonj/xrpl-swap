@@ -2,13 +2,13 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
 from app.models import AccountInfoResponse, XrplAddress, XrplClient
-from xrpledger.client import get_xrpl_client
+from xrpledger.client import get_xrpl_rpc_client
 from xrpledger.request import fetch_account_info
 
 router = APIRouter(
     prefix="/account",
     tags=["account"],
-    dependencies=[Depends(get_xrpl_client)],
+    dependencies=[Depends(get_xrpl_rpc_client)],
     responses={"400": {"description": "Request failed"}},
 )
 

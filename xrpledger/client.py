@@ -3,7 +3,7 @@ from xrpl.asyncio.clients import AsyncJsonRpcClient, AsyncWebsocketClient
 from common.config import settings
 
 
-def get_xrpl_client(url: str | None = None) -> AsyncJsonRpcClient:
+def get_xrpl_rpc_client(url: str | None = None) -> AsyncJsonRpcClient:
     """
     Returns an AsyncJsonRpcClient instance connected to the specified XRPL environment.
 

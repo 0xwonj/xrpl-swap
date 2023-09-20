@@ -1,12 +1,10 @@
-from typing import Any
-
 from xrpl.asyncio.clients import AsyncJsonRpcClient
-from xrpl.models.requests import AccountInfo, Request, RipplePathFind
+from xrpl.models.requests import AccountInfo, BookOffers, Request
 
-from xrpledger.models import Amount
+from xrpledger.models import Token
 
 
-async def fetch_account_info(address: str, client: AsyncJsonRpcClient, **kwargs: Any) -> dict[str, Any]:
+async def fetch_account_info(address: str, client: AsyncJsonRpcClient, **kwargs: any) -> dict[str, any]:
     """
     Fetches account information asynchronously from the XRPL network.
 
@@ -23,44 +21,34 @@ async def fetch_account_info(address: str, client: AsyncJsonRpcClient, **kwargs:
     return await request_ledger(request=AccountInfo(account=address, **kwargs), client=client)
 
 
-async def get_exchange_rate(
-    source_address: str,
-    destination_address: str,
-    send_amount: Amount,
-    destination_amount: Amount,
+async def get_orderbook(
+    taker_gets: Token,
+    taker_pays: Token,
     client: AsyncJsonRpcClient,
-) -> float | None:
+    limit: int | None = None,
+    taker: str | None = None,
+) -> dict[str, any]:
     """
     Args:
-        source_address (str): _description_
-        destination_address (str): _description_
-        send_amount (Amount): _description_
-        destination_amount (Amount): _description_
+        taker_gets (Token): _description_
+        taker_pays (Token): _description_
         client (AsyncWebsocketClient, optional): _description_. Defaults to Depends(get_xrpl_ws_client).
 
     Returns:
-        float | None: _description_
+        dict[str, any]: _description_
     """
-    result = await request_ledger(
-        request=RipplePathFind(
-            source_account=source_address,
-            destination_account=destination_address,
-            destination_amount=destination_amount.to_xrpl_amount(),
-            send_max=send_amount.to_xrpl_amount(),
-            ledger_index="current",
+    return await request_ledger(
+        request=BookOffers(
+            taker_gets=taker_gets.to_xrpl_currency(),
+            taker_pays=taker_pays.to_xrpl_currency(),
+            limit=limit,
+            taker=taker,
         ),
         client=client,
     )
 
-    if "alternatives" in result and result["alternatives"]:
-        alternative = result["alternatives"][0]
-        source_amount = float(alternative["source_amount"])
-        return source_amount
 
-    return None
-
-
-async def request_ledger(request: Request, client: AsyncJsonRpcClient) -> dict[str, Any]:
+async def request_ledger(request: Request, client: AsyncJsonRpcClient) -> dict[str, any]:
     """
     Sends a ledger request to the XRPL (XRP Ledger) network asynchronously.
 

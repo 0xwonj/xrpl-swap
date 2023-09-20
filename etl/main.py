@@ -1,35 +1,34 @@
 import asyncio
 
-from etl.xrpl.exchange_rate import exchange_rate_stream
-from etl.xrpl.exchange_rate import listener as exchange_rate_listener
-from xrpledger.client import get_xrpl_ws_client
-from xrpledger.models import Amount
+from database.redis import get_redis
+from etl.offer import calculate_quality, extract_offers, quality_to_redis
+from xrpledger.client import get_xrpl_rpc_client
+from xrpledger.data.tokens import tokens
+from xrpledger.models import Token
 
 
-async def connect_xrpl() -> None:
+async def etl_offers(token_pair: tuple[Token, Token]):
     """
-    Establish a connection to the XRPL websockets and initiate streams.
+    Extract, transform, and load offer data into Redis
+
+    Args:
+        token_pair (tuple[Token, Token]): token pair
     """
-    ws_client = get_xrpl_ws_client()
-
-    async with ws_client as client:
-        listener_task = asyncio.create_task(exchange_rate_listener(client))
-
-        await exchange_rate_stream(
-            source_address="rL8uh4GEBX8Yn9yReKjmikzTBzQNLVYTzV",
-            destination_address="rL8uh4GEBX8Yn9yReKjmikzTBzQNLVYTzV",
-            destination_amount=Amount(symbol="USD", issuer="rhub8VRN55s94qWKDv6jmDy1pUykJzF3wq", value="1"),
-            client=client,
-        )
-
-        await listener_task
+    await get_redis().flushall()
+    offers = await extract_offers(
+        taker_gets=token_pair[0],
+        taker_pays=token_pair[1],
+        client=get_xrpl_rpc_client(),
+    )
+    quality = calculate_quality(offers, token_pair)
+    await quality_to_redis(quality, redis=get_redis())
 
 
-async def main() -> None:
+async def main():
     """
-    Run the main application.
+    Main function
     """
-    await connect_xrpl()
+    await etl_offers((tokens["USD.Gatehub"], tokens["XRP"]))
 
 
 if __name__ == "__main__":

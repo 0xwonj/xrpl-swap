@@ -1,5 +1,3 @@
-from typing import Any
-
 from xrpl.asyncio.clients import AsyncJsonRpcClient
 from xrpl.asyncio.transaction import autofill, sign, submit_and_wait
 from xrpl.models.transactions import Transaction
@@ -10,7 +8,7 @@ async def submit_transaction(
     transaction: Transaction,
     wallet: Wallet,
     client: AsyncJsonRpcClient,
-) -> dict[str, Any]:
+) -> dict[str, any]:
     """
     Submits a transaction to XRPL, waits for a response, and then returns the result.
 
@@ -20,7 +18,7 @@ async def submit_transaction(
         wallet (Wallet): The wallet containing the keys used for signing the transaction.
 
     Returns:
-        dict[str, Any]: The result of the transaction.
+        dict[str, any]: The result of the transaction.
     """
     # Autofill transaction
     filled_tx = await autofill(transaction=transaction, client=client, signers_count=1)

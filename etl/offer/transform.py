@@ -31,7 +31,14 @@ def calculate_quality(
         total_get += get_amount
         total_pay += pay_amount
 
-        quality[token_key][total_pay] = total_get / total_pay
-        quality[token_key_inverse][total_get] = total_pay / total_get
+        try:
+            quality[token_key][total_get] = total_pay / total_get
+        except ZeroDivisionError:
+            quality[token_key][total_get] = 0
+
+        try:
+            quality[token_key_inverse][total_pay] = total_get / total_pay
+        except ZeroDivisionError:
+            quality[token_key_inverse][total_pay] = 0
 
     return quality

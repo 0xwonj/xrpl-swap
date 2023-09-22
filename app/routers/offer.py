@@ -1,44 +1,24 @@
-from typing import Annotated
-
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field, validator
+from xrpl.models.transactions import OfferCancel, OfferCreate, OfferCreateFlag
+from xrpl.wallet import Wallet
 
-from app.models import Redis
+from app.models import (
+    OfferCancelRequest,
+    OfferCreateRequest,
+    OfferQualityRequest,
+    Redis,
+    XrplClient,
+)
 from database.redis import get_redis
 from etl.offer.read import get_quality
-from xrpledger.data.tokens import tokens
-from xrpledger.models import Token
+from xrpledger.transaction import submit_transaction
 
 router = APIRouter(
     prefix="/offer",
     tags=["offer"],
     dependencies=[Depends(get_redis)],
 )
-
-
-class OfferQualityRequest(BaseModel):
-    """
-    A model representing the request for a token swap.
-    """
-
-    token_from: Annotated[
-        Token, Field(..., description="The source token for the swap", example=tokens["XRP"])
-    ]
-    token_to: Annotated[
-        Token, Field(..., description="The destination token for the swap", example=tokens["USD.Gatehub"])
-    ]
-    from_amount: Annotated[float, Field(..., ge=0, description="The source token amount for the swap")]
-
-    @validator("token_to", pre=True, always=True)
-    def validate_token_pair(cls, token_to: Token, values: dict) -> Token:
-        """
-        Validate token pair
-        """
-        token_from = values.get("token_from")
-        if token_from == token_to:
-            raise ValueError("token_from and token_to should be different")
-        return token_to
 
 
 @router.post("/quality")
@@ -55,3 +35,44 @@ async def get_offer_quality(
     status_code = 200 if (quality > 0) else 404
 
     return JSONResponse(content=quality, status_code=status_code)
+
+
+@router.post("/create")
+async def offer_create(request: OfferCreateRequest, client: XrplClient) -> JSONResponse:
+    """
+    Process Offer Create on XRPL Orderbook.
+    """
+    transaction = OfferCreate(
+        account=request.account,
+        taker_pays=request.taker_pays.to_xrpl_amount(),
+        taker_gets=request.taker_gets.to_xrpl_amount(),
+        flags=OfferCreateFlag.TF_SELL,
+    )
+
+    result = await submit_transaction(
+        transaction=transaction,
+        wallet=Wallet(public_key=request.public, private_key=request.secret),
+        client=client,
+    )
+
+    status_code = 400 if "error" in result else 200
+
+    return JSONResponse(content=result, status_code=status_code)
+
+
+@router.post("/cancel")
+async def offer_cancel(request: OfferCancelRequest, client: XrplClient) -> JSONResponse:
+    """
+    Process Offer Create on XRPL Orderbook.
+    """
+    transaction = OfferCancel(account=request.account, offer_sequence=request.offer_sequence)
+
+    result = await submit_transaction(
+        transaction=transaction,
+        wallet=Wallet(public_key=request.public, private_key=request.secret),
+        client=client,
+    )
+
+    status_code = 400 if "error" in result else 200
+
+    return JSONResponse(content=result, status_code=status_code)
